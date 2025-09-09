@@ -1,6 +1,7 @@
+import { gameManager } from "../server/api/api.ts";
 import { GameFinishedReason } from "./game-end-reasons.ts";
-import { Placementos } from "./game-types.ts";
-
+import { Placement } from "./game-types.ts";
+import { PieceType } from "./game-types.ts";
 export class GameEngine {
     private board: PieceType[];
     private currentTurn: PieceType;
@@ -11,8 +12,8 @@ export class GameEngine {
     }
 
     place(placement: Placement): boolean {
-        if (this.board[placement.square] == PieceType.BLANK) {
-            this.board[placement.square] = placement.pieceType;
+        if (this.board[placement.square] == PieceType.BLANK && this.isXWin() == false && this.isOWin() == false && this.isTie() == false) {
+            this.board[placement.square] = this.currentTurn;
             this.currentTurn = GameEngine.oppositePiece(this.currentTurn);
             return true;
         } else {
@@ -57,7 +58,14 @@ export class GameEngine {
      * @returns true if the columns has a win
      */
     isColumnWin(pieceType: PieceType, offset: number): boolean {
-        return false;
+        if( this.board[0] == pieceType && this.board[3] == pieceType && this.board[6] == pieceType) {
+            return true;
+        } else if (this.board[1] == pieceType && this.board[4] == pieceType && this.board[7] == pieceType) {
+            return true;
+        } else if (this.board[2] == pieceType && this.board[5] == pieceType && this.board[8] == pieceType) {
+            return true;
+        } else
+            return false;
     }
 
     isDiagonalWin(pieceType: PieceType): boolean {

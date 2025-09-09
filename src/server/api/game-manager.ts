@@ -1,19 +1,19 @@
 import { GameEngine } from "../../common/game-engine.ts";
 import {
     Message,
-    SndMessage,
+    SendMessage,
     GameInterruptedMessage,
     GameFinishedMessage,
 } from "../../common/message/messages.ts";
 import { SocketManager } from "./socket-manager.ts";
 import { ClientManager } from "./client-manager.ts";
-import { ClintType } from "../../common/client-types.ts"
+import { ClientType } from "../../common/client-types.ts"
 import {
     GameEndReason,
     GameEndReason as GameInterruptedReason,
 } from "../../common/game-end-reasons.ts"
 import { PieceType } from "../../common/game-types.ts";
-
+import { PlacementMessage, GameStartedMessage } from "../../common/message/messages.ts";
 export class GameManager {
     protected gameInterruptedReason: GameInterruptedReason | undefined =
         undefined;

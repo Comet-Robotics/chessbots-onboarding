@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-
-import { PieceTypes, Placement } from "../common/game-types";
+import { GameEngine } from "../common/game-engine";
+import { PieceType, Placement } from "../common/game-types";
 import { MessageType } from "../common/message/message-types";
+import { ClientType } from "../common/client-types";
 import {
   PlacementMessage,
   RegisterWebsocketMessage,
@@ -201,7 +202,7 @@ function App() {
           type="button"
           onClick={startGameButtonCallback}
         >
-          Start Gmae
+          Start Game
         </button>
       )}
     </div>
@@ -267,12 +268,19 @@ function TicTacToe(props: TicTacToeProps) {
     <>
       <p>Current Player Turn: {player}</p>
       <p>You Are: {localPlayer}</p>
-      <div className="board-grid">
+      <div className="board-grid "
+      style={{ display: "flex", flexDirection: "column", gap: "2rem", margin: "4rem" }}
+      >
+        <div style={{ display: "flex", flexDirection: "row"}}>
         {boardState.map((piece, pieceIndex) => {
+          if(pieceIndex > 2){
+            return;
+          }
           return (
             <BoardTile
               key={`tile-${pieceIndex}`}
               piece={piece}
+              
               disabled={
                 spectating ||
                 player !== localPlayer ||
@@ -300,6 +308,83 @@ function TicTacToe(props: TicTacToeProps) {
             />
           );
         })}
+        </div>
+        <div style={{ display: "flex", flexDirection: "row"}}>
+        {boardState.map((piece, pieceIndex) => {
+          if(pieceIndex < 3 || pieceIndex > 5){
+            return;
+          }
+          return (
+            <BoardTile
+              key={`tile-${pieceIndex}`}
+              piece={piece}
+              
+              disabled={
+                spectating ||
+                player !== localPlayer ||
+                piece !== PieceType.BLANK
+              }
+              onClick={() => {
+                const placement: Placement = {
+                  pieceType: PieceType.X,
+                  square: pieceIndex,
+                };
+
+                const newBoardState = boardState;
+                newBoardState[pieceIndex] = localPlayer;
+                setBoardState(newBoardState);
+                
+                if (!webSocket) {
+                  console.error("No websocket connection");
+                  return;
+                }
+
+                const msg = new PlacementMessage(placement);
+                webSocket.send(msg.toJson());
+                setPlayer(GameEngine.oppositePiece(player));
+              }}
+            />
+          );
+        })}
+        </div>
+        <div style={{ display: "flex", flexDirection: "row"}}>
+        {boardState.map((piece, pieceIndex) => {
+          if(pieceIndex < 6){
+            return;
+          }
+          return (
+            <BoardTile
+              key={`tile-${pieceIndex}`}
+              piece={piece}
+              
+              disabled={
+                spectating ||
+                player !== localPlayer ||
+                piece !== PieceType.BLANK
+              }
+              onClick={() => {
+                const placement: Placement = {
+                  pieceType: PieceType.X,
+                  square: pieceIndex,
+                };
+
+                const newBoardState = boardState;
+                newBoardState[pieceIndex] = localPlayer;
+                setBoardState(newBoardState);
+                
+                if (!webSocket) {
+                  console.error("No websocket connection");
+                  return;
+                }
+
+                const msg = new PlacementMessage(placement);
+                webSocket.send(msg.toJson());
+                setPlayer(GameEngine.oppositePiece(player));
+              }}
+            />
+          );
+        })}
+        </div>
       </div>
     </>
   );
@@ -313,12 +398,13 @@ function BoardTile(props: {
   const { piece, onClick, disabled } = props;
   return (
     <button
+      style={piece == PieceType.X ? {color: "red", margin:"4px"} : {color: "blue", margin:"4px"}}
       type="button"
       className="board-tile"
       disabled={disabled}
       onClick={onClick}
     >
-      <p>{piece}</p>
+      <p>{piece == PieceType.BLANK? " ":piece}</p>
     </button>
   );
 }
