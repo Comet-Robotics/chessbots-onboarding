@@ -278,7 +278,8 @@ function TicTacToe(props: TicTacToeProps) {
               disabled={
                 spectating ||
                 player !== localPlayer ||
-                piece !== PieceType.BLANK
+                piece !== PieceType.BLANK ||
+                gameEnded
               }
               onClick={() => {
                 const placement: Placement = {
