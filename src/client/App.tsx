@@ -320,7 +320,7 @@ function BoardTile(props: {
       disabled={disabled}
       onClick={onClick}
     >
-      <p>{piece}</p>
+      <p>{piece === PieceType.BLANK ? "" : piece}</p>
     </button>
   );
 }
