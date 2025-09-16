@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
-import { PieceTypes, Placement } from "../common/game-types";
+import { PieceType, Placement } from "../common/game-types";
 import { MessageType } from "../common/message/message-types";
 import {
   PlacementMessage,
   RegisterWebsocketMessage,
 } from "../common/message/messages";
 import { GameFinishedReason } from "../common/game-end-reasons";
+import { ClientType } from "../common/client-types";              // Missing import fixed
+import { GameEngine } from "../common/game-engine";               // Missing import fixed
 
 function useWebSocket() {
   const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
@@ -201,7 +203,7 @@ function App() {
           type="button"
           onClick={startGameButtonCallback}
         >
-          Start Gmae
+          Start Game
         </button>
       )}
     </div>

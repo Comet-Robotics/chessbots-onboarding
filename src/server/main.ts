@@ -5,6 +5,7 @@ import { v4 as uuuuuuuuid } from "uuid";
 import { websocketHandler } from "./api/api.ts";
 import expressWebSocket from "express-ws";
 import { clientManager } from "./api/managers.ts";
+import { apiRouter } from "./api/api.ts";
 
 const app = expressWebSocket(express()).app;
 
@@ -18,7 +19,7 @@ app.use(cookieParser());
  */
 const checkAuthentication: RequestHandler = (req, res, next) => {
     if (!req.cookies.id) {
-        res.cookie("id", uuid(), {
+        res.cookie("id", uuuuuuuuid(), {
             // Expires after 1 day
             maxAge: 86400000,
             // Cookie isn't available to client
@@ -47,7 +48,7 @@ app.get("/", (_, res) => {
 app.ws("/game-ws", websocketHandler);
 
 // This sends any api requests to our api handler
-app.use("/api", apiRouter);
+app.use("/api", apiRouter);             // Missing import fixed
 
 // This starts the backend, and notifies vite to start the frontend
 ViteExpress.listen(app as unknown as Express, 3000, () => {

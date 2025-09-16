@@ -1,13 +1,15 @@
 import { GameEngine } from "../../common/game-engine.ts";
 import {
     Message,
-    SndMessage,
+    SendMessage,                    // Incorrect import reference fixed
     GameInterruptedMessage,
     GameFinishedMessage,
+    GameStartedMessage,              // Missing import fixed
+    PlacementMessage
 } from "../../common/message/messages.ts";
 import { SocketManager } from "./socket-manager.ts";
 import { ClientManager } from "./client-manager.ts";
-import { ClintType } from "../../common/client-types.ts"
+import { ClientType } from "../../common/client-types.ts"               // Incorrect import reference fixed
 import {
     GameEndReason,
     GameEndReason as GameInterruptedReason,
@@ -15,8 +17,7 @@ import {
 import { PieceType } from "../../common/game-types.ts";
 
 export class GameManager {
-    protected gameInterruptedReason: GameInterruptedReason | undefined =
-        undefined;
+    protected gameInterruptedReason: GameInterruptedReason | undefined = undefined;
 
     constructor(
         public game: GameEngine,

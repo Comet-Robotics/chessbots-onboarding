@@ -1,5 +1,6 @@
-import { MassageType } from "./message-types.ts";
+import { MessageType } from "./message-types.ts";
 import { GameFinishedReason, GameInterruptedReason } from "../game-end-reasons.ts";
+import { Placement } from "../game-types.ts";                       // Missing import fixed
 
 export abstract class Message {
     /**

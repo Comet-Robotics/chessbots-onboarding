@@ -1,5 +1,6 @@
 import { GameFinishedReason } from "./game-end-reasons.ts";
-import { Placementos } from "./game-types.ts";
+import { Placement } from "./game-types.ts";                // Incorrect import reference fixed
+import { PieceType } from "./game-types.ts";                // Missing import fixed
 
 export class GameEngine {
     private board: PieceType[];
