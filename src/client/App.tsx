@@ -317,7 +317,7 @@ function BoardTile(props: {
   return (
     <button
       type="button"
-      className="board-tile"
+      className={`board-tile ${piece === PieceType.X ? "tile-x" : (piece === PieceType.O ? "tile-y" : "")}`}
       disabled={disabled}
       onClick={onClick}
     >
